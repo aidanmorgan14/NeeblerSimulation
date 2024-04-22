@@ -1,5 +1,9 @@
 import random
 import os
+import pandas as pd 
+import matplotlib.pyplot as plt
+import seaborn as sns
+
 os.system('clear')
 
 def run_simulation():
@@ -58,7 +62,30 @@ for _ in range(num_runs):
     result = run_simulation()
     results.append(result)
 
+df = pd.DataFrame(results)
 
-print(f"{'Run':<5} {'Generations':<12} {'Small Neeblers':<15} {'Big Neeblers':<15}")
-for i, res in enumerate(results):
-    print(f"{i+1:<5} {res['generations']:<12} {res['final_small_neeblers']:<15} {res['final_big_neeblers']:<15}")
+
+fig, ax = plt.subplots(1, 3, figsize=(24, 8))  
+
+
+sns.scatterplot(ax=ax[0], data=df, x='generations', y='final_small_neeblers', hue='final_big_neeblers', palette='viridis', size='final_big_neeblers', sizes=(20, 200))
+ax[0].set_title('Generation vs Small Neeblers Population')
+ax[0].set_xlabel('Generations')
+ax[0].set_ylabel('Final Small Neeblers Population')
+
+
+sns.scatterplot(ax=ax[1], data=df, x='generations', y='final_big_neeblers', hue='final_small_neeblers', palette='viridis', size='final_small_neeblers', sizes=(20, 200))
+ax[1].set_title('Generation vs Big Neeblers Population')
+ax[1].set_xlabel('Generations')
+ax[1].set_ylabel('Final Big Neeblers Population')
+
+
+the_table = ax[2].table(cellText=df.values, colLabels=df.columns, cellLoc = 'center', loc='center')
+the_table.auto_set_font_size(False)
+the_table.set_fontsize(10)
+the_table.scale(1.2, 1.2)
+ax[2].axis('off')  
+ax[2].set_title('Simulation Results')
+
+plt.tight_layout()
+plt.show()
