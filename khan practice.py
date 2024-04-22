@@ -56,8 +56,8 @@ def run_simulation():
 
 
 results = []
-num_runs = 20
-
+num_runs = int(input('How many times would you like to run the simulation?\n'))
+os.system('clear')
 for _ in range(num_runs):
     result = run_simulation()
     results.append(result)
@@ -87,5 +87,7 @@ the_table.scale(1.2, 1.2)
 ax[2].axis('off')  
 ax[2].set_title('Simulation Results')
 
-plt.tight_layout()
-plt.show()
+print(df.describe())
+if input('Do you want to see the scatterplots and table?(Y/N)').strip().title() == 'Y':
+    plt.tight_layout()
+    plt.show()
